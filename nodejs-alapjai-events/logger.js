@@ -11,12 +11,13 @@ const esemenyFigyelo = new Logger()
 // importálom a szükséges modulokat
 const { createReadStream, createWriteStream } = require ('fs')
 const { Transform } = require('stream')
+const path = require('path')
 
 // a transzformációhoz az alábbi fájlt fogjuk használni:
 const filePath='nodejs-alapjai-events/lorem.txt'
 
 // létrehozom a stream olvasáshoz - transzformációhoz - íráshoz szükséges metódusokat
-const streamolvasas = createReadStream(filePath, {encoding:'utf8', highWaterMark:1024})
+const streamolvasas = createReadStream(path.join(__dirname, filePath), {encoding:'utf8', highWaterMark:1024})
 const upperCase = new Transform({transform(chunk, encoding, callback){
     this.push(chunk.toString().split(' ').map(e=>e.charAt(0).toUpperCase()+e.slice(1)).join(' ')); callback()}})
 const streamiras = createWriteStream(`${filePath}.bak`)
