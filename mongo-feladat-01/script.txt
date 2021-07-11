@@ -1,0 +1,25 @@
+use videoStore
+
+db.movies.insertMany([{title: "Tenet", category: "Fantasy", director: "James Cameron"}, 
+    {title: "The Dark Knight", category: "action", director: "Steven Spielberg"}, 
+    {title: "Joker", category: "romantic", director: "Clint Eastwood"}, 
+    {title: "Dunkirk", category: "fantasy", director: "Steven Spielberg"}, 
+    {title: "Batman", category: "action", director: "James Cameron"}, 
+    {title: "Memento", category: "fantasy", director: "Clint Eastwood"}, 
+    {title: "Casino", category: "romantic", director: "Steven Spielberg"}, 
+    {title: "Alien", category: "fantasy", director: "James Cameron"}, 
+    {title: "Spiderman", category: "fantasy", director: "Clint Eastwood"}, 
+    {title: "Batman Returns", category: "action", director: "James Cameron"}])
+
+db.movies.updateMany({}, {$set:{ratings:[]}})
+
+db.movies.updateOne({title: "Batman Returns"}, {$push: {ratings:2}}) 
+db.movies.updateOne({title: "Dunkirk"}, {$push: {ratings: 3}})
+db.movies.updateOne({title: "Spiderman"}, {$push: {ratings: 1}})
+db.movies.updateOne({title: "Batman Returns"}, {$push: {ratings:5}}) 
+db.movies.updateOne({title: "Dunkirk"}, {$push: {ratings: 4}})
+db.movies.updateOne({title: "Spiderman"}, {$push: {ratings: 2}})
+
+db.movies.updateMany({}, {$set: { releaseYear: 2000 }} )
+
+db.courses.updateMany({}, [{$set: {category: {$toUpper: "$category"}}}])

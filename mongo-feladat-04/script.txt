@@ -1,0 +1,11 @@
+db.createCollection("cinemas", {validator: {$jsonSchema: {properties: {_id: { bsonType: "int"}, name: { bsonType: "string", pattern: "[A-Za-z0-9 ]"}, movies: { bsonType: "array"}, address: { bsonType: "object", properties: { city: { bsonType: "string"}}}},required: ["_id", "name", "movies", "address"]}}})
+
+db.cinemas.insertMany([{_id: NumberInt(1), name: "cinemas1", movies: [ObjectId("60eb2adf3b6fd77c0c40813f"), ObjectId("60eb2adf3b6fd77c0c408140"), ObjectId("60eb2adf3b6fd77c0c408141")]},
+    {_id: NumberInt(2), name: "cinemas2", movies: [ObjectId("60eb2adf3b6fd77c0c408142"), ObjectId("60eb2adf3b6fd77c0c408143"), ObjectId("60eb2adf3b6fd77c0c408144")]},
+    {_id: NumberInt(3), name: "cinemas3", movies: [ObjectId("60eb2adf3b6fd77c0c408145"), ObjectId("60eb2adf3b6fd77c0c408146"), ObjectId("60eb2adf3b6fd77c0c408147")]}])
+
+db.directors.aggregate([{$lookup: {from: "movies", localField: "movies", foreignField: "_id", as: "moviesDirected"}},
+  {$match: { name: "James Cameron"}}, { $project: {_id: 0, moviesDirected: 1}}])
+
+db.directors.aggregate([{$lookup: {from: "movies", localField: "movies", foreignField: "_id", as: "moviesTitles"}},
+  {$match: { name: "Clint Eastwood"}}, {$project: {_id: 0, name: 1, "moviesTitles.title": 1}}])
